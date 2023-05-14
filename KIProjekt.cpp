@@ -5,6 +5,12 @@
 #include <string>
 using namespace std;
 
+void readLine(string line) {
+    if (line != "" && line.substr(0,2) != "//") {
+        cout << "'" << line << "'" << endl;
+    }
+}
+
 int main()
 {
     ifstream input;
@@ -20,21 +26,11 @@ int main()
     while (!input.is_open());
 
     //Datei lesen:
+    string line;
+
     while (input) {
-        string varName;
-
-        getline(input, varName, '+');
-
-        int varValue;
-        input >> varValue;
-
-        input >> ws;
-
-        if (!input) {
-            break;
-        }
-
-        cout << "'" << varName << "': " << varValue << endl;
+        getline(input, line);
+        readLine(line);
     }
 
     input.close();
