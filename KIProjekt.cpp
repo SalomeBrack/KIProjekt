@@ -7,6 +7,8 @@ using namespace std;
 
 void readLine(string line) {
     if (line != "" && line.substr(0,2) != "//") {
+        //
+
         cout << "'" << line << "'" << endl;
     }
 }
