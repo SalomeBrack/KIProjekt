@@ -23,25 +23,25 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Benchmarks\KI_5.txt">
+    <Text Include="KI_5.txt">
       <Filter>Benchmarks</Filter>
     </Text>
-    <Text Include="Benchmarks\KI_8.txt">
+    <Text Include="KI_8.txt">
       <Filter>Benchmarks</Filter>
     </Text>
-    <Text Include="Benchmarks\KI_9.txt">
+    <Text Include="KI_9.txt">
       <Filter>Benchmarks</Filter>
     </Text>
-    <Text Include="Benchmarks\KI_10.txt">
+    <Text Include="KI_10.txt">
       <Filter>Benchmarks</Filter>
     </Text>
-    <Text Include="Benchmarks\KI_15.txt">
+    <Text Include="KI_15.txt">
       <Filter>Benchmarks</Filter>
     </Text>
-    <Text Include="Benchmarks\KI_20.txt">
+    <Text Include="KI_20.txt">
       <Filter>Benchmarks</Filter>
     </Text>
-    <Text Include="Benchmarks\KI_30.txt">
+    <Text Include="KI_30.txt">
       <Filter>Benchmarks</Filter>
     </Text>
   </ItemGroup>
