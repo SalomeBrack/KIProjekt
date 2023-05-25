@@ -6,7 +6,7 @@
 #include <vector>
 using namespace std;
 
-vector<int> vect = {};
+vector<double> vect = {};
 int numberOfVariables = 0;
 
 void parseLine(string line, int i)
@@ -60,23 +60,20 @@ void parseLine(string line, int i)
 
 void readLine(string line) {
     if (line != "" && line.substr(0,2) != "//") {
-        int minOrMax = 0;
-
         if (vect.empty())
         {
             if (line.find(":"))
             {
                 if (!line.find("min"))
                 {
-                    minOrMax = 0;
+                    vect.push_back(0);
                 }
                 else if (!line.find("max"))
                 {
-                    minOrMax = 1;
+                    vect.push_back(1);
                 }
             }
 
-            vect.push_back(minOrMax);
             parseLine(line, line.find(":") + 1);
             numberOfVariables = vect.size() - 1;
         }

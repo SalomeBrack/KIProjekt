@@ -44,5 +44,11 @@
     <Text Include="KI_30.txt">
       <Filter>Benchmarks</Filter>
     </Text>
+    <Text Include="Test.txt">
+      <Filter>Benchmarks</Filter>
+    </Text>
+    <Text Include="minTest.txt">
+      <Filter>Benchmarks</Filter>
+    </Text>
   </ItemGroup>
 </Project>
