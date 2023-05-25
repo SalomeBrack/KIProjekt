@@ -39,8 +39,50 @@ void duaSimIteration() {
 
 void dualerSimplex() {
     vector<double> v = vect;
+    int i = 0;
+    int temp1 = 0;
+    int temp2 = 0;
+    int pivotZeile = 0;
+    int pivotSpalte = 0;
+    int pivotElement = 0;
+    bool rechtsNegativ = false;
+    int a = 0; //
 
-    if (debug) { printNumbers(v); }
+    
+    do {
+        a++; //
+
+        //Pivotzeile: Kleinsten Wert finden
+        i = 1;
+        temp1 = 0;
+        pivotZeile = 0;
+        temp2 = v[spalten - 1];
+
+        while (i < zeilen - 1) {
+            temp1 = v[i * spalten + spalten - 1];
+
+            if (temp1 < temp2) {
+                pivotZeile = i;
+                temp2 = temp1;
+            }
+
+            i++;
+        }
+
+        //Pivotspalte: Größten Wert, kleiner 0 finden
+
+
+        //Rechte Seite auf negative Werte prüfen
+        rechtsNegativ = false;
+        for (int i = 0; i < zeilen - 1; i++)
+        {
+            if (v[i * spalten + spalten - 1] < 0) {
+                rechtsNegativ = true;
+            }
+        }
+
+        if (debug) { printNumbers(v); }
+    } while (rechtsNegativ && a < 5); //
 }
 
 void setupSimplex() {
