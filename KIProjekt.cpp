@@ -40,8 +40,8 @@ void duaSimIteration() {
 void dualerSimplex() {
     vector<double> v = vect;
     int i = 0;
-    int temp1 = 0;
-    int temp2 = 0;
+    double temp1 = 0;
+    double temp2 = 0;
     int pivotZeile = 0;
     int pivotSpalte = 0;
     int pivotElement = 0;
@@ -54,8 +54,8 @@ void dualerSimplex() {
 
         //Pivotzeile: Kleinsten Wert finden
         i = 1;
-        temp1 = 0;
         pivotZeile = 0;
+        temp1 = 0;
         temp2 = v[spalten - 1];
 
         while (i < zeilen - 1) {
@@ -70,7 +70,36 @@ void dualerSimplex() {
         }
 
         //Pivotspalte: Größten Wert, kleiner 0 finden
+        i = 0;
+        pivotSpalte = 0;
+        temp1 = 0;
+        temp2 = 0;
 
+        //...nach einer negativen Zahl suchen
+        while (i < spalten - 1 && temp1 >= 0) {
+            temp1 = v[(zeilen - 1) * spalten + i] / v[pivotZeile * spalten + i];
+
+            pivotSpalte = i;
+
+            i++;
+        }
+
+        //...nach einer größeren negativen Zahl suchen
+        while (i < spalten - 1) {
+            temp2 = v[(zeilen - 1) * spalten + i] / v[pivotZeile * spalten + i];
+
+            if (temp2 < 0 && temp2 > temp1) {
+                temp1 = temp2;
+                pivotSpalte = i;
+            }
+
+            i++;
+        }
+
+        //Pivotelement: neue Tabelle
+        pivotElement = pivotZeile * spalten + pivotSpalte;
+
+        cout << v[pivotElement] << endl;
 
         //Rechte Seite auf negative Werte prüfen
         rechtsNegativ = false;
