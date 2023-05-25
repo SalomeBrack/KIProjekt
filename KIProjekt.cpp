@@ -6,10 +6,81 @@
 #include <vector>
 using namespace std;
 
-vector<double> vect = {};
-int numberOfVariables = 0;
+bool debug = true;
 
-void parseLine(string line, int i)
+vector<double> vect = {};
+int spalten = 0;
+int zeilen = 0;
+
+void printNumbers()
+{
+    cout << endl;
+    
+    for (int j = 0; j < vect.size() / spalten; j++) {
+        int i = 0;
+        
+        while (i < spalten)
+        {
+            cout << vect[j * spalten + i] << "  ";
+            i++;
+        }
+
+        cout << endl;
+    }
+}
+
+void dualerSimplex() {
+
+}
+
+void primalerSimplex() {
+
+}
+
+void setupSimplex() {
+    //Tabellenform
+    for (int i = 0; i < spalten; i++)
+    {
+        vect.push_back(vect[0]);
+        vect.erase(vect.begin());
+    }
+
+    if (debug) { printNumbers(); }
+
+    //Schlupfvariablen hinzufühgen
+    zeilen = vect.size() / spalten;
+
+    int z = zeilen - 1;
+    int temp = 0;
+
+    vect.insert(vect.begin() + z * spalten + spalten - 1, zeilen - 1, temp);
+    z--;
+
+    while (z >= 0) {
+        for (int i = zeilen - 2; i >= 0; i--)
+        {
+            if (i == z) {
+                temp = 1;
+            }
+            else {
+                temp = 0;
+            }
+
+            vect.insert(vect.begin() + z * spalten + spalten - 1, temp);
+        }
+
+        z--;
+    }
+
+    spalten = vect.size() / zeilen;
+
+    if (debug) { printNumbers(); }
+
+    //Passenden Simplex wählen
+
+}
+
+void parseLine(string line, int i, bool invert)
 {
     bool num = false;
     bool inVarName = false;
@@ -48,6 +119,10 @@ void parseLine(string line, int i)
         }
         else if (num)
         {
+            if (invert) {
+                temp = temp * (-1);
+            }
+
             vect.push_back(temp);
             temp = 0;
             num = false;
@@ -59,46 +134,37 @@ void parseLine(string line, int i)
 }
 
 void readLine(string line) {
+    bool invert = false;
+
     if (line != "" && line.substr(0,2) != "//") {
-        if (vect.empty())
+        if (vect.empty() && line.find(":"))
         {
-            if (line.find(":"))
+            if (!line.find("min"))
             {
-                if (!line.find("min"))
-                {
-                    vect.push_back(0);
-                }
-                else if (!line.find("max"))
-                {
-                    vect.push_back(1);
-                }
+                invert = false;
+            }
+            else if (!line.find("max"))
+            {
+                invert = true;
             }
 
-            parseLine(line, line.find(":") + 1);
-            numberOfVariables = vect.size() - 1;
+            parseLine(line, line.find(":") + 1, invert);
+            vect.push_back(0);
+            spalten = vect.size();
         }
         else
         {
-            parseLine(line, 0);
+            if (line.find(">"))
+            {
+                invert = true;
+            }
+            else
+            {
+                invert = false;
+            }
+
+            parseLine(line, 0, invert);
         }
-    }
-}
-
-void printNumbers()
-{
-    int i = 1;
-
-    if (vect[0] == 0) { cout << "min:  "; } else { cout << "max:  "; }
-
-    for (int j = 0; j < vect.size() / (numberOfVariables + 1); j++) {
-        while (i <= numberOfVariables)
-        {
-            cout << vect[j * (numberOfVariables + 1) + i] << "  ";
-            i++;
-        }
-
-        cout << endl;
-        i = 0;
     }
 }
 
@@ -128,7 +194,7 @@ int main()
 
     input.close();
 
-    printNumbers();
+    setupSimplex();
 
     return 0;
 }
