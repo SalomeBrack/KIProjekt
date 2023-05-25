@@ -139,8 +139,6 @@
     <Text Include="KI_8.txt" />
     <Text Include="KI_9.txt" />
     <Text Include="minTest.txt" />
-    <Text Include="t.txt" />
-    <Text Include="Test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

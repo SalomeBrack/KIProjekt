@@ -30,11 +30,7 @@ void printNumbers(vector<double> v)
 }
 
 void primalerSimplex() {
-
-}
-
-void duaSimIteration() {
-
+    //Todo
 }
 
 void dualerSimplex() {
@@ -42,16 +38,13 @@ void dualerSimplex() {
     int i = 0;
     double temp1 = 0;
     double temp2 = 0;
+    double temp3 = 0;
     int pivotZeile = 0;
     int pivotSpalte = 0;
     int pivotElement = 0;
     bool rechtsNegativ = false;
-    int a = 0; //
-
     
     do {
-        a++; //
-
         //Pivotzeile: Kleinsten Wert finden
         i = 1;
         pivotZeile = 0;
@@ -77,16 +70,23 @@ void dualerSimplex() {
 
         //...nach einer negativen Zahl suchen
         while (i < spalten - 1 && temp1 >= 0) {
-            temp1 = v[(zeilen - 1) * spalten + i] / v[pivotZeile * spalten + i];
+            temp2 = v[pivotZeile * spalten + i];
+
+            if (temp2 != 0) {
+                temp1 = v[(zeilen - 1) * spalten + i] / temp2;
+            }
 
             pivotSpalte = i;
-
             i++;
         }
 
         //...nach einer größeren negativen Zahl suchen
         while (i < spalten - 1) {
-            temp2 = v[(zeilen - 1) * spalten + i] / v[pivotZeile * spalten + i];
+            temp3 = v[pivotZeile * spalten + i];
+
+            if (temp3 != 0) {
+                temp2 = v[(zeilen - 1) * spalten + i] / temp3;
+            }
 
             if (temp2 < 0 && temp2 > temp1) {
                 temp1 = temp2;
@@ -99,7 +99,34 @@ void dualerSimplex() {
         //Pivotelement: neue Tabelle
         pivotElement = pivotZeile * spalten + pivotSpalte;
 
-        cout << v[pivotElement] << endl;
+        //...Pivotzeile
+        temp1 = v[pivotElement];
+
+        for (int j = 0; j < spalten; j++)
+        {
+            temp2 = pivotZeile * spalten + j;
+
+            v[temp2] = v[temp2] / temp1;
+        }
+
+        //...andere Zeilen
+        i = 0;
+        
+        while (i < zeilen) {
+            if (i != pivotZeile) {
+                temp3 = v[i * spalten + pivotSpalte];
+
+                for (int j = 0; j < spalten; j++)
+                {
+                    temp1 = pivotZeile * spalten + j;
+                    temp2 = i * spalten + j;
+
+                    v[temp2] = v[temp2] - (v[temp1] * temp3);
+                }
+            }
+
+            i++;
+        }
 
         //Rechte Seite auf negative Werte prüfen
         rechtsNegativ = false;
@@ -111,7 +138,7 @@ void dualerSimplex() {
         }
 
         if (debug) { printNumbers(v); }
-    } while (rechtsNegativ && a < 5); //
+    } while (rechtsNegativ);
 }
 
 void setupSimplex() {
@@ -121,8 +148,6 @@ void setupSimplex() {
         vect.push_back(vect[0]);
         vect.erase(vect.begin());
     }
-
-    if (debug) { printNumbers(vect); }
 
     //Schlupfvariablen hinzufühgen
     zeilen = vect.size() / spalten;
