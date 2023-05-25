@@ -12,16 +12,16 @@ vector<double> vect = {};
 int spalten = 0;
 int zeilen = 0;
 
-void printNumbers()
+void printNumbers(vector<double> v)
 {
     cout << endl;
-    
-    for (int j = 0; j < vect.size() / spalten; j++) {
+
+    for (int j = 0; j < v.size() / spalten; j++) {
         int i = 0;
-        
+
         while (i < spalten)
         {
-            cout << vect[j * spalten + i] << "  ";
+            cout << v[j * spalten + i] << "  ";
             i++;
         }
 
@@ -29,12 +29,18 @@ void printNumbers()
     }
 }
 
-void dualerSimplex() {
+void primalerSimplex() {
 
 }
 
-void primalerSimplex() {
+void duaSimIteration() {
 
+}
+
+void dualerSimplex() {
+    vector<double> v = vect;
+
+    if (debug) { printNumbers(v); }
 }
 
 void setupSimplex() {
@@ -45,7 +51,7 @@ void setupSimplex() {
         vect.erase(vect.begin());
     }
 
-    if (debug) { printNumbers(); }
+    if (debug) { printNumbers(vect); }
 
     //Schlupfvariablen hinzufühgen
     zeilen = vect.size() / spalten;
@@ -74,10 +80,24 @@ void setupSimplex() {
 
     spalten = vect.size() / zeilen;
 
-    if (debug) { printNumbers(); }
+    if (debug) { printNumbers(vect); }
 
     //Passenden Simplex wählen
+    bool rechtsNegativ = false;
 
+    for (int i = 0; i < zeilen - 1; i++)
+    {
+        if (vect[i * spalten + spalten - 1] < 0) {
+            rechtsNegativ = true;
+        }
+    }
+
+    if (rechtsNegativ) {
+        dualerSimplex();
+    }
+    else {
+        primalerSimplex();
+    }
 }
 
 void parseLine(string line, int i, bool invert)
