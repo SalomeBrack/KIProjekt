@@ -139,6 +139,27 @@ void dualerSimplex() {
 
         if (debug) { printNumbers(v); }
     } while (rechtsNegativ);
+
+    //Ergebnis ausgeben
+    bool schlupfNull = true;
+
+    cout << endl;
+
+    cout << "Z: " << v[v.size() - 1] * (-1) << endl;
+
+    for (int i = 0; i < spalten - zeilen; i++)
+    {
+        temp1 = 0;
+
+        for (int j = 0; j < zeilen - 1; j++)
+        {
+            if (v[j * spalten + i] == 1) {
+                temp1 = v[j * spalten + spalten - 1];
+            }
+        }
+
+        cout << "x" << i << ": " << temp1 << endl;
+    }
 }
 
 void setupSimplex() {
@@ -289,28 +310,35 @@ int main()
     ifstream input;
     string filename = "";
 
-    //Datei öffnen:
-    do
-    {
-        cout << "Geben Sie Namen der Datei ein, die gelesen werden soll.\nDateiname: ";
-        cin >> filename;
+    while (true) {
+        //Datei öffnen:
+        do
+        {
+            cout << "Geben Sie Namen der Datei ein, die gelesen werden soll.\nDateiname: ";
+            cin >> filename;
 
-        input.open(filename + ".txt");
+            input.open(filename + ".txt");
+        } while (!input.is_open());
+
+        //Datei lesen:
+        string line;
+
+        while (input)
+        {
+            getline(input, line);
+            readLine(line);
+        }
+
+        input.close();
+
+        setupSimplex();
+
+        //Reset
+        cout << endl;
+        vect.clear();
+        spalten = 0;
+        zeilen = 0;
     }
-    while (!input.is_open());
-
-    //Datei lesen:
-    string line;
-
-    while (input)
-    {
-        getline(input, line);
-        readLine(line);
-    }
-
-    input.close();
-
-    setupSimplex();
 
     return 0;
 }
