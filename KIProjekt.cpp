@@ -308,16 +308,16 @@ void readLine(string line) {
 int main()
 {
     ifstream input;
-    string filename = "";
+    string filepath = "";
 
     while (true) {
         //Datei öffnen:
         do
         {
-            cout << "Geben Sie Namen der Datei ein, die gelesen werden soll.\nDateiname: ";
-            cin >> filename;
+            cout << "Geben Sie Dateipfad ein.\nDateipfad: ";
+            cin >> filepath;
 
-            input.open(filename + ".txt");
+            input.open(filepath);
         } while (!input.is_open());
 
         //Datei lesen:
