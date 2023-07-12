@@ -6,7 +6,7 @@
 #include <vector>
 using namespace std;
 
-bool debug = true;
+bool debug = false;
 
 vector<double> vect = {};
 int spalten = 0;
